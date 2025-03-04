@@ -1,9 +1,12 @@
-<?php headerAdmi($data); ?>
+<?php 
+  headerAdmi($data); 
+  getModal("modalRoles", $data)
+?>
     <main class="app-content">
       <div class="app-title">
         <div>
           <h1><i class="app-menu__iconbi bi-check2-square"> </i><?php echo $data['page_title'] ?>
-            <button class="btn btn-primary" type="button"><i class="bi bi-plus"></i> Nuevo</button>
+            <button class="btn btn-primary" type="button" onclick="openModal();"><i class="bi bi-plus"></i> Nuevo</button>
           </h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">

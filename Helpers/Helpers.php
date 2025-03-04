@@ -41,7 +41,7 @@
 		$format .= print_r('</pre>');
 		return $format;
 	}
-	//Funcion encargada de obtener el modelo
+	//Funcion encargada de obtener el model
 	function getModal(String $nameModal, $data)
 	{
 		$view_modal = "Views/Template/Modals/{$nameModal}.php";
