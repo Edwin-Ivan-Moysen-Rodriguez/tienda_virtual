@@ -24,7 +24,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="<?php echo base_url(); ?>usuarios">
-              <i class="fa-regular fa-id-badge"></i> Usuarios</a>
+              <i class="app-menu__icon bi bi-people"></i> Usuarios</a>
             </li>
             <li><a class="treeview-item" href="<?php echo base_url(); ?>roles">
               <i class="app-menu__icon bi bi-diagram-3"></i> Roles</a>
