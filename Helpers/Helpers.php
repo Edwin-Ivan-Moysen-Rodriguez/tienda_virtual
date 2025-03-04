@@ -41,6 +41,12 @@
 		$format .= print_r('</pre>');
 		return $format;
 	}
+	//Funcion encargada de obtener el modelo
+	function getModal(String $nameModal, $data)
+	{
+		$view_modal = "Views/Template/Modals/{$nameModal}.php";
+		require_once $view_modal;
+	}
 	//Elimina exceso de especios entre palabras
 	function strclean($strcadena)
 	{
