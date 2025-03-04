@@ -7,6 +7,7 @@
     <!-- Importacion del archivo functions_admi.js para las funciones del administrador-->
     <script src="<?php echo media(); ?>/js/functions_admi.js"></script>
     <!-- Page specific javascripts-->
-    
+    <!-- Importacion del archivo functions_roles.js para las funciones del administrador-->
+    <script src="<?php echo media(); ?>/js/functions_roles.js"></script>
   </body>
 </html>

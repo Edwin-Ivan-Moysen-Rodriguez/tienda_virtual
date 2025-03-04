@@ -2,7 +2,9 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="app-menu__iconbi bi-check2-square"> </i><?php echo $data['page_title'] ?></h1>
+          <h1><i class="app-menu__iconbi bi-check2-square"> </i><?php echo $data['page_title'] ?>
+            <button class="btn btn-primary" type="button"><i class="bi bi-plus"></i> Nuevo</button>
+          </h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="bi bi-house-door fs-6"></i></li>
