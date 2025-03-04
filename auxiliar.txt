@@ -9,3 +9,4 @@ Comandos usados para subir archivos a GitHub por medio de Git:
 git remote add origin https://github.com/Edwin-Ivan-Moysen-Rodriguez/tienda_virtual.git
 git branch -M main
 git push -u origin main
+git push //Para actualizar el repositorios en GitHub, despues de un commit

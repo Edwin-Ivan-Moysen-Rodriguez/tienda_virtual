@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="description" content="Tienda Virtual - Equipos contra incendios y señalamientos">
-    <meta http-equiv="X-UA-Compatible content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta nome="viewport" content="width=device-width, initial-scale=1">
     <meta name="autor" content="Edwin Moysen">
     <meta name="theme-color" content="B22222">

@@ -24,7 +24,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="<?php echo base_url(); ?>usuarios">
-              <i class="app-menu__icon bi bi-person-check"></i> Usuarios</a>
+              <i class="fa-regular fa-id-badge"></i> Usuarios</a>
             </li>
             <li><a class="treeview-item" href="<?php echo base_url(); ?>roles">
               <i class="app-menu__icon bi bi-diagram-3"></i> Roles</a>
@@ -36,25 +36,25 @@
         </li>
         <li>
           <a class="app-menu__item" href="<?php echo base_url(); ?>clientes">
-            <i class="app-menu__icon bi bi-code-square"></i>
+            <i class="app-menu__icon bi bi-person-lines-fill"></i>
             <span class="app-menu__label">Clientes</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="<?php echo base_url(); ?>productos">
-            <i class="app-menu__icon bi bi-code-square"></i>
+            <i class="app-menu__icon bi bi-tools"></i>
             <span class="app-menu__label">Productos</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="<?php echo base_url(); ?>pedidos">
-            <i class="app-menu__icon bi bi-code-square"></i>
+            <i class="app-menu__icon bi bi-bag-check"></i>
             <span class="app-menu__label">Pedidos</span>
           </a>
         </li>
         <li>
           <a class="app-menu__item" href="<?php echo base_url(); ?>logout">
-            <i class="app-menu__icon bi bi-code-square"></i>
+            <i class="app-menu__icon bi bi-box-arrow-right"></i>
             <span class="app-menu__label">Logout</span>
           </a>
         </li>
