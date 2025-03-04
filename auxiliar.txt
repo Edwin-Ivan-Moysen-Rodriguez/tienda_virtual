@@ -4,3 +4,8 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+Comandos usados para subir archivos a GitHub por medio de Git:
+git remote add origin https://github.com/Edwin-Ivan-Moysen-Rodriguez/tienda_virtual.git
+git branch -M main
+git push -u origin main
