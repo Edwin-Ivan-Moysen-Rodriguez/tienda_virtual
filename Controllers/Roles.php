@@ -20,5 +20,10 @@
 			$data['page_name'] = "rol_usuario";
 			$this->views->getViews($this, "roles", $data);
 		}
+		//Metodo para obtener el los roles desde una base de datos
+		public function getRoles()
+		{
+			$arrData = $this->model->selectRoles();
+		}
 	}
 ?>

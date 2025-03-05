@@ -1,6 +1,7 @@
 <?php 
 	/**
-	 * 
+	 * HomeModel.php
+	 * Archivo encargado de la creacion del modelo Home
 	 */
 	class homeModel extends Mysql
 	{
