@@ -1,3 +1,6 @@
+    <script>
+        const base_url = "<?php echo base_url(); ?>"
+    </script>
     <!-- Essential javascripts for application to work-->
     <script src="<?php echo media(); ?>/js/jquery-3.7.0.min.js"></script>
     <script src="<?php echo media(); ?>/js/bootstrap.min.js"></script>
