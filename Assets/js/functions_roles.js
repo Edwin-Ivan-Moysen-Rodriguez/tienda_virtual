@@ -23,23 +23,39 @@ document.addEventListener('DOMContentLoaded', function(){
         "order": [[0, "desc"]]
     });
 });
-//Nuevo Rol
+/*/ Nuevo Rol
 var formRol = document.querySelector("#formRol");
-formRol.onsubmit = function(e){
+formRol.onsubmit = function(e) {
     e.preventDefault();
-    //Variables de las formas usadas
+    // Variables de las formas usadas
     var strNombre = document.querySelector('#txtNombre').value;
     var strDescripcion = document.querySelector('#txtDescripcion').value;
     var intStatus = document.querySelector('#listStatus').value;
-    //Validamos que todos los campos contengan informacion
-    if (strNombre == '' || strDescripcion == '' || intStatus == '') 
-    {
+    // Validamos que todos los campos contengan información
+    if (strNombre === '' || strDescripcion === '' || intStatus === '') {
         swal("Atención", "Todos los campos son obligatorios", "error");
         return false;
     }
+    // Validación del navegador para la creación del objeto XMLHttpRequest
+    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    var ajaxUrl = base_url + '/RolessetRol';
+    var formData = new FormData(formRol);
+    request.open("POST", ajaxUrl, true);
+    request.send(formData);
+    request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                console.log("Respuesta exitosa:", request.responseText);
+                // Aquí puedes procesar la respuesta, actualizar la interfaz, etc.
+            } else {
+                console.error("Error en la petición:", request.statusText);
+            }
+        }
+    }
 }
+*/
 $('#tableRoles').DataTable();
 function openModal()
 {
-	$('#modalFormRol').modal('show');
+    $('#modalFormRol').modal('show');
 }

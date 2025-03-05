@@ -1,4 +1,4 @@
-<?php  
+	<?php  
 	/**
 	  * Archivo Roles.php
 	  * Controlador Dashboard
@@ -51,6 +51,11 @@
 			}
 		    echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
 		    exit();
+		}
+		//Funcion para la selección de roles
+		public function setRoles()
+		{
+			dep($_POST);
 		}
 	}
 ?>
