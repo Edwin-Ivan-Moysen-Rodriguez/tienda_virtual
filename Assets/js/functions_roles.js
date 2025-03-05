@@ -23,6 +23,21 @@ document.addEventListener('DOMContentLoaded', function(){
         "order": [[0, "desc"]]
     });
 });
+//Nuevo Rol
+var formRol = document.querySelector("#formRol");
+formRol.onsubmit = function(e){
+    e.preventDefault();
+    //Variables de las formas usadas
+    var strNombre = document.querySelector('#txtNombre').value;
+    var strDescripcion = document.querySelector('#txtDescripcion').value;
+    var intStatus = document.querySelector('#listStatus').value;
+    //Validamos que todos los campos contengan informacion
+    if (strNombre == '' || strDescripcion == '' || intStatus == '') 
+    {
+        swal("Atención", "Todos los campos son obligatorios", "error");
+        return false;
+    }
+}
 $('#tableRoles').DataTable();
 function openModal()
 {
