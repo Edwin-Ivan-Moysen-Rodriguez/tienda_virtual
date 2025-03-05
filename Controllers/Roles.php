@@ -35,6 +35,19 @@
 				{
 					$arrData[$i]['status'] = '<span class="me-1 badge bg-danger">Inactivo</span>';
 				}
+				//Opciones de cada consulta en nuestra tabla rol
+				$arrData[$i]['options'] = '<div class="text-center">' .
+									    '<button class="btn btn-secondary btn-sm btnPermisosRol" rl="' . $arrData[$i]['idrol'] . '" title="Permisos">' .
+									    '<i class="bi bi-key"></i>' .
+									    '</button>' .
+									    '<button class="btn btn-primary btn-sm btnEditRol" rl="' . $arrData[$i]['idrol'] . '" title="Editar">' .
+									    '<i class="bi bi-pen"></i>' .
+									    '</button>' .
+									    '<button class="btn btn-danger btn-sm btnDelRol" rl="' . $arrData[$i]['idrol'] . '" title="Eliminar">' .
+									    '<i class="bi bi-trash"></i>' .
+									    '</button>' .
+									    '</div>';
+
 			}
 		    echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
 		    exit();
