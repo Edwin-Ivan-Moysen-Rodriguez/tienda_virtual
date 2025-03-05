@@ -22,8 +22,11 @@
 		}
 		//Metodo para obtener el los roles desde una base de datos
 		public function getRoles()
-		{
-			$arrData = $this->model->selectRoles();
-		}
+{
+    $arrData = $this->model->selectRoles();
+    echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
 	}
 ?>

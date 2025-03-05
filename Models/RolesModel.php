@@ -5,18 +5,18 @@
 	 */
 	class rolesModel extends Mysql
 	{
-		//Constructor de la clase
+		// Constructor de la clase
 		public function __construct()
 		{
 			parent::__construct();
 		}
-	}
-	//Metodo encargado de consultar un rol seleccionado desde una base de datos
-	public function selectRoles()
-	{
-		//Extraer roles
-		$sql = "SELECT * FROM rol WHERE status != 0";
-		$request = $this->select_all($sql);
-		return $request;
+		// Método encargado de consultar un rol seleccionado desde la base de datos
+		public function selectRoles()
+		{
+			// Extraer roles
+			$sql = "SELECT * FROM rol WHERE status != 0";
+			$request = $this->select_all($sql);
+			return $request;
+		}
 	}
 ?>
