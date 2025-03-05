@@ -14,7 +14,7 @@
 		public function selectRoles()
 		{
 			// Extraer roles
-			$sql = "SELECT * FROM rol WHERE status != 0";
+			$sql = "SELECT * FROM rol";
 			$request = $this->select_all($sql);
 			return $request;
 		}
