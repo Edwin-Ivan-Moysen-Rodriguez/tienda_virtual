@@ -27,7 +27,23 @@
 		public function insertRol(string $rol, string $descripcion, int $status)
 		{
 			// Insertar roles
-
+			$return = "";
+			$this->strRol = $rol;
+			$this->strDescripcion = $descripcion;
+			$this->intStatus = $status;
+			// Consulta para verificar si ya existe el rol a insertar
+			$sql = "SELECT * FROM rol WHERE nombreRol = '{$this->strRol}'";
+			$request = $this->select_all($sql);
+			// Validacion de la existencia del rol en la tabla rol
+			if (empty($request)) {
+				$query_insert = "INSERT INTO rol(nombrerol,descripcion,status) VALUES(?,?,?)";
+				$arrData = array($this->strRol,$this->strDescripcion,$this->intStatus);
+				$request_insert = $this->insert($query_insert,$arrData);
+				$return = $request_insert;
+			} else {
+				$return = "exists";
+			}
+			return $return;
 		}
 	}
 ?>
