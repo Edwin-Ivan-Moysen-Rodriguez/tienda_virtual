@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "order": [[0, "desc"]]
     });
 });
-/*/ Nuevo Rol
+// Nuevo Rol
 var formRol = document.querySelector("#formRol");
 formRol.onsubmit = function(e) {
     e.preventDefault();
@@ -43,17 +43,19 @@ formRol.onsubmit = function(e) {
     request.open("POST", ajaxUrl, true);
     request.send(formData);
     request.onreadystatechange = function() {
+        // Validación para verificar que si llegue la información
         if (request.readyState === 4) {
             if (request.status === 200) {
                 console.log("Respuesta exitosa:", request.responseText);
                 // Aquí puedes procesar la respuesta, actualizar la interfaz, etc.
+                console.log(request.responseText);
             } else {
                 console.error("Error en la petición:", request.statusText);
             }
         }
     }
 }
-*/
+
 $('#tableRoles').DataTable();
 function openModal()
 {

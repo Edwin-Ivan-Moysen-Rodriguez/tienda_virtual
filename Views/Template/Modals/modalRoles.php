@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label">Descripción</label>
-                  <textarea class="form-control" id="txtDireccion" name="txtDireccion" rows="2" placeholder="Descripción del rol" required></textarea>
+                  <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" rows="2" placeholder="Descripción del rol" required></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="exampleSelect1">Estado</label>
