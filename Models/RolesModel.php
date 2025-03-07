@@ -9,7 +9,7 @@
 		public $intRol;
 		public $strRol;
 		public $strDescripcion;
-		public $intStatus
+		public $intStatus;
 		// Constructor de la clase
 		public function __construct()
 		{
@@ -41,7 +41,7 @@
 				$request_insert = $this->insert($query_insert,$arrData);
 				$return = $request_insert;
 			} else {
-				$return = "exists";
+				$return = "exist";
 			}
 			return $return;
 		}

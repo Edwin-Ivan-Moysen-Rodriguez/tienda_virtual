@@ -50,15 +50,26 @@
 
 			}
 		    echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-		    exit();
+		    die();
 		}
 		//Funcion para la selección de roles
-		public function setRoles()
+		public function setRol()
 		{
-			// Variables que almacenan los datos enviados a la tabla rol
-			$strRol = strClean($_POST['txtNombre']);
-			$strDescripcion = strClean($_POST['txtDescripcion']);
-			$intStatus = intval($_POST['listStatus'])
+		    // Variables que almacenan los datos enviados a la tabla rol
+		    $strRol = strClean($_POST['txtNombre']);
+		    $strDescripcion = strClean($_POST['txtDescripcion']);
+		    $intStatus = intval($_POST['listStatus']);
+		    $request_rol = $this->model->insertRol($strRol, $strDescripcion, $intStatus);
+		    // Validacion del resultado obtenido en request_rol
+		    if ($request_rol > 0) {
+		        $arrResponse = array('status' => true, 'msg' => 'Datos guardados correctamente.');
+		    } else if ($request_rol == 'exist') {
+		        $arrResponse = array('status' => false, 'msg' => '¡PRECAUCIÓN! El Rol ya existe.');
+		    } else {
+		        $arrResponse = array('status' => false, 'msg' => 'No es posible almacenar los datos.');
+		    }
+		    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+		    die();
 		}
 	}
 ?>

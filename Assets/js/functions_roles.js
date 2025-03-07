@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "order": [[0, "desc"]]
     });
 });
+
 // Nuevo Rol
 var formRol = document.querySelector("#formRol");
 formRol.onsubmit = function(e) {
@@ -38,7 +39,7 @@ formRol.onsubmit = function(e) {
     }
     // Validación del navegador para la creación del objeto XMLHttpRequest
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = base_url + '/RolessetRol';
+    var ajaxUrl = base_url + '/Roles/setRol';
     var formData = new FormData(formRol);
     request.open("POST", ajaxUrl, true);
     request.send(formData);
@@ -46,9 +47,22 @@ formRol.onsubmit = function(e) {
         // Validación para verificar que si llegue la información
         if (request.readyState === 4) {
             if (request.status === 200) {
-                console.log("Respuesta exitosa:", request.responseText);
-                // Aquí puedes procesar la respuesta, actualizar la interfaz, etc.
-                console.log(request.responseText);
+                // Aquí se puede procesar la respuesta, actualizar la interfaz, etc.
+                var objData = JSON.parse(request.responseText);
+                // Validación de objData
+                if (objData.status) 
+                {
+                    $('#modalFormRol').modal("hide");
+                    formRol.reset();
+                    swal("Roles de usuario", objData.msg, "success");
+                    tableRoles.api().ajax.reload(function(){
+                        //fntEditRol();
+                        //fntDenRol();
+                        //fntPermisos();
+                    });
+                } else {
+                    swal("Error", objData.msg, "error");
+                }
             } else {
                 console.error("Error en la petición:", request.statusText);
             }
@@ -57,7 +71,7 @@ formRol.onsubmit = function(e) {
 }
 
 $('#tableRoles').DataTable();
-function openModal()
-{
+
+function openModal() {
     $('#modalFormRol').modal('show');
 }
