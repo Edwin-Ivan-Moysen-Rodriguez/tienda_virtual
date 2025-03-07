@@ -55,7 +55,10 @@
 		//Funcion para la selección de roles
 		public function setRoles()
 		{
-			dep($_POST);
+			// Variables que almacenan los datos enviados a la tabla rol
+			$strRol = strClean($_POST['txtNombre']);
+			$strDescripcion = strClean($_POST['txtDescripcion']);
+			$intStatus = intval($_POST['listStatus'])
 		}
 	}
 ?>
