@@ -3,7 +3,7 @@
     </script>
     <!-- Essential javascripts for application to work-->
     <script src="<?php echo media(); ?>/js/jquery-3.7.0.min.js"></script>
-    <script src="<?php echo media(); ?>/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="<?php echo media(); ?>/js/main.js"></script>
     <!-- Importacion del archivo fontawesome.js el cual contiene nuestra librearia de icons -->
     <script src="<?php echo media(); ?>/js/fontawesome.js"></script>
