@@ -29,6 +29,7 @@ var formRol = document.querySelector("#formRol");
 formRol.onsubmit = function(e) {
     e.preventDefault();
     // Variables de las formas usadas
+    var intIdRol = document.querySelector('#idRol').value;
     var strNombre = document.querySelector('#txtNombre').value;
     var strDescripcion = document.querySelector('#txtDescripcion').value;
     var intStatus = document.querySelector('#listStatus').value;
@@ -56,6 +57,7 @@ formRol.onsubmit = function(e) {
                     formRol.reset();
                     swal("Roles de usuario", objData.msg, "success");
                     tableRoles.api().ajax.reload(function(){
+                        fnEditRol();
                         //fntEditRol();
                         //fntDenRol();
                         //fntPermisos();
