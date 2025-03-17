@@ -28,3 +28,14 @@
 .notBlock{
   display: none;
 }
+.my-confirm-button {
+    background-color: #28a745 !important; /* Verde */
+    color: white !important;
+    border: none;
+}
+
+.my-cancel-button {
+    background-color: #dc3545 !important; /* Rojo */
+    color: white !important;
+    border: none;
+}

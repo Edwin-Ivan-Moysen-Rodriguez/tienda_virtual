@@ -1,0 +1,20 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<button onclick="testAlert2()">Probar SweetAlert2</button>
+<script>
+function testAlert2() {
+  Swal.fire({
+    title: "Eliminar Rol",
+    text: "¿Deseas eliminar el rol?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar.",
+    cancelButtonText: "No, cancelar."
+  }).then((result) => {
+    if (result.isConfirmed) {
+      alert("Rol eliminado (simulado).");
+    } else {
+      alert("Cancelado.");
+    }
+  });
+}
+</script>

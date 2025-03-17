@@ -20,7 +20,7 @@
 		public function selectRoles()
 		{
 			// Extraer roles
-			$sql = "SELECT * FROM rol";
+			$sql = "SELECT * FROM rol WHERE status != 2";
 			$request = $this->select_all($sql);
 			return $request;
 		}
@@ -72,6 +72,27 @@
 				$request = $this->update($sql, $arrData);
 			} else {
 				$request = "exist";
+			}
+			return $request;
+		}
+		// Método para eliminar un rol
+		public function deleteRol(int $idrol)
+		{
+			$this->intIdrol = $idrol;
+			$sql = "SELECT * FROM persona WHERE rolid = $this->intIdrol";
+			$request = $this->select_all($sql);
+			if(empty($request)){
+				$sql = "UPDATE rol SET status = ? WHERE idrol = $this->intIdrol";
+				$arrData = array(2);
+				$request = $this->update($sql, $arrData);
+				// Validación de la consulta
+				if ($request) {
+					$request = 'ok';
+				} else {
+					$request = 'error';
+				}
+			} else{
+				$request = 'exist';
 			}
 			return $request;
 		}

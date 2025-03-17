@@ -43,7 +43,7 @@
 									    '<button class="btn btn-primary btn-sm btnEditRol" rl="' . $arrData[$i]['idrol'] . '" onClick="fnEditRol()" title="Editar">' .
 									    '<i class="bi bi-pen"></i>' .
 									    '</button>' .
-									    '<button class="btn btn-danger btn-sm btnDelRol" rl="' . $arrData[$i]['idrol'] . '" title="Eliminar">' .
+									    '<button class="btn btn-danger btn-sm btnDelRol" rl="' . $arrData[$i]['idrol'] . '" onClick="fntDelRol()" title="Eliminar">' .
 									    '<i class="bi bi-trash"></i>' .
 									    '</button>' .
 									    '</div>';
@@ -106,6 +106,31 @@
 		        $arrResponse = array('status' => false, 'msg' => 'No es posible almacenar los datos.');
 		    }
 		    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+		    die();
+		}
+		// Método para la eliminación de un rol
+		public function delRol()
+		{
+		    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		        if (isset($_POST['idrol'])) {
+		            $intIdrol = intval($_POST['idrol']);
+		            $requestDelete = $this->model->deleteRol($intIdrol);
+		            // Validación de la consulta
+		            if ($requestDelete == 'ok'){
+		                $arrResponse = array('status' => true, 'msg' => 'Rol eliminado.');
+		            } else if ($requestDelete == 'exist'){
+		                $arrResponse = array('status' => false, 'msg' => 'No es posible eliminar un rol asociado a usuarios.');
+		            } else {
+		                $arrResponse = array('status' => false, 'msg' => 'Error al eliminar el rol');
+		            }
+		        } else {
+		            $arrResponse = array('status' => false, 'msg' => 'No se recibió el id del rol.');
+		        }
+		        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+		    } else {
+		        $arrResponse = array('status' => false, 'msg' => 'Método HTTP no permitido.');
+		        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+		    }
 		    die();
 		}
 	}
