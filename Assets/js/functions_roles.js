@@ -212,6 +212,20 @@ function fntPermisos() {
     var btnPermisosRol = document.querySelectorAll(".btnPermisosRol");
     btnPermisosRol.forEach(function(btnPermisosRol){
         btnPermisosRol.addEventListener('click', function(){
+            // Petición de los modulos a la base de datos
+            var idrol = this.getAttribute("rl");
+            var request = window.XMLHttpRequest 
+                        ? new XMLHttpRequest() 
+                        : new ActiveXObject('Microsoft.XMLHTTP');
+            var ajaxUrl = base_url + '/Permisos/getPermisosRol' + idrol;
+            request.open("GET", ajaxUrl, true);
+            request.send();
+            // Validación de la solicitud
+            request.onreadystatechange = function(){
+                if(request.status == 200){
+                    console.log(request.responseText);
+                }
+            }
             // Mostrando el Modal Permisos
             $('.modalPermisos').modal('show');
         });
