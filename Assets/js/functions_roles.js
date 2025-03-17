@@ -85,6 +85,7 @@ function openModal() {
 }
 //Se agrega métódo para cargar el método load
 window.addEventListener('load', function(){
+    fntPermisos();
     fnEditRol();
     fntDelRol();
 }, false);
@@ -186,6 +187,7 @@ function fntDelRol() {
                                     icon: "success"
                                 });
                                 tableRoles.api().ajax.reload(function(){
+                                    fntPermisos();
                                     fnEditRol();
                                     fntDelRol();
                                 });
@@ -202,6 +204,16 @@ function fntDelRol() {
                     // Opcional: acciones en caso de cancelar
                 }
             });
+        });
+    });
+}
+//Función evento clic del btnPermisosRol
+function fntPermisos() {
+    var btnPermisosRol = document.querySelectorAll(".btnPermisosRol");
+    btnPermisosRol.forEach(function(btnPermisosRol){
+        btnPermisosRol.addEventListener('click', function(){
+            // Mostrando el Modal Permisos
+            $('.modalPermisos').modal('show');
         });
     });
 }

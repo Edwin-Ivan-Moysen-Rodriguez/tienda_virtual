@@ -37,7 +37,7 @@
 				}
 				//Opciones de cada consulta en nuestra tabla rol
 				$arrData[$i]['options'] = '<div class="text-center">' .
-									    '<button class="btn btn-secondary btn-sm btnPermisosRol" rl="' . $arrData[$i]['idrol'] . '" title="Permisos">' .
+									    '<button class="btn btn-secondary btn-sm btnPermisosRol" rl="' . $arrData[$i]['idrol'] . '"onClick="fntPermisos()" title="Permisos">' .
 									    '<i class="bi bi-key"></i>' .
 									    '</button>' .
 									    '<button class="btn btn-primary btn-sm btnEditRol" rl="' . $arrData[$i]['idrol'] . '" onClick="fnEditRol()" title="Editar">' .
