@@ -6,6 +6,7 @@
 	class rolesModel extends Mysql
 	{
 		// Propiedades de un rol:
+		public $intIdrol;
 		public $intRol;
 		public $strRol;
 		public $strDescripcion;
@@ -15,11 +16,20 @@
 		{
 			parent::__construct();
 		}
-		// Método encargado de consultar un rol seleccionado desde la base de datos
+		// Método encargado de consultar los roles seleccionados desde la base de datos
 		public function selectRoles()
 		{
 			// Extraer roles
 			$sql = "SELECT * FROM rol";
+			$request = $this->select_all($sql);
+			return $request;
+		}
+		// Método encaargado de consultar un rol seleccionado desde la base de datos
+		public function selectRol(int $idrol)
+		{
+			//Buscar un rol
+			$this->intIdrol = $idrol;
+			$sql = "SELECT * FROM rol WHERE idrol = $this->intIdrol";
 			$request = $this->select_all($sql);
 			return $request;
 		}

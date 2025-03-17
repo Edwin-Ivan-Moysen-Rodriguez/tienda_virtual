@@ -37,10 +37,10 @@
 				}
 				//Opciones de cada consulta en nuestra tabla rol
 				$arrData[$i]['options'] = '<div class="text-center">' .
-									    '<button class="btn btn-secondary btn-sm btnPermisosRol" rl="' . $arrData[$i]['idrol'] . '" onClick="fnEditRol()" title="Permisos">' .
+									    '<button class="btn btn-secondary btn-sm btnPermisosRol" rl="' . $arrData[$i]['idrol'] . '" title="Permisos">' .
 									    '<i class="bi bi-key"></i>' .
 									    '</button>' .
-									    '<button class="btn btn-primary btn-sm btnEditRol" rl="' . $arrData[$i]['idrol'] . '" title="Editar">' .
+									    '<button class="btn btn-primary btn-sm btnEditRol" rl="' . $arrData[$i]['idrol'] . '" onClick="fnEditRol()" title="Editar">' .
 									    '<i class="bi bi-pen"></i>' .
 									    '</button>' .
 									    '<button class="btn btn-danger btn-sm btnDelRol" rl="' . $arrData[$i]['idrol'] . '" title="Eliminar">' .
@@ -51,6 +51,25 @@
 			}
 		    echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
 		    die();
+		}
+		//Función para obtener un rol de la base de datos
+		public function getRol(int $idrol)
+		{
+			$intIdrol = intval(strClean($idrol));
+			if($intIdrol > 0) //Comprobamos que el rol exista, de acuerdo a su id
+			{
+				$arrData = $this->model->selectRol($intIdrol);
+				if(empty($arrData))
+				{
+					$arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+				}
+				else
+				{
+					$arrResponse = array('status' => true, 'data' => $arrData);
+				}
+				echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+			} 
+			die();
 		}
 		//Funcion para la selección de roles
 		public function setRol()

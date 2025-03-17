@@ -90,12 +90,63 @@ function fnEditRol() {
     var btnEditRol = document.querySelectorAll(".btnEditRol");
     btnEditRol.forEach(function(btnEditRol) {
         btnEditRol.addEventListener('click', function() {
-            //console.log("Se hizo clic en el botón editar");
+            // Actualización del modal
             document.querySelector('#titleModal').innerHTML = "Actualizar Rol";
             document.querySelector('.modal-header').classList.replace("headerRegistrer", "headerUpdate");
             document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
             document.querySelector('#btnText').innerHTML = "Actualizar";
-            $('#modalFormRol').modal('show');
+            
+            // Obtener el id del rol desde el atributo 'rl' del botón
+            var idrol = this.getAttribute("rl");
+            
+            // Crear el objeto AJAX de forma compatible
+            var request = window.XMLHttpRequest 
+                ? new XMLHttpRequest() 
+                : new ActiveXObject('Microsoft.XMLHTTP');
+            
+            // Construir la URL 
+            var ajaxUrl = base_url + '/Roles/getRol/' + idrol;
+            // Si tu controlador espera el parámetro vía query string, podrías usar:
+            // var ajaxUrl = base_url + '/Roles/getRol?id=' + idrol;
+            
+            // Configurar y enviar la solicitud
+            request.open("GET", ajaxUrl, true);
+            request.send();
+            
+            request.onreadystatechange = function(){
+                if (request.readyState == 4 && request.status == 200) {
+                    // Textendo la obtención del rol en la consola del navegador
+                    // console.log(request.responseText);
+                    
+                    var objData = JSON.parse(request.responseText);
+                    // Validación del converción JSON a objeto
+                    if(objData.status)
+                    {
+                        // Como data es un array, tomas el primer objeto con [0]
+                        let rol = objData.data[0]; 
+                        // Mostrando los valores del objeto 
+                        document.querySelector("#idRol").value = rol.idrol;
+                        document.querySelector('#txtNombre').value = rol.nombrerol;
+                        document.querySelector('#txtDescripcion').value = rol.descripcion;
+                        // Validación del status de del objeto
+                        if(objData.data.status == 1)
+                            var optionSelect = '<option value="1" selected class="notBlock">Activo</option>';
+                        else
+                            var optionSelect = '<option value="2" selected class="notBlock">Inactivo</option>';
+                        //
+                        var htmlSelect = `${optionSelect}
+                                            <option value="1">Activo</option>
+                                            <option value="2">Inactivo</option>
+                                        `;
+                        document.querySelector('#listStatus').innerHTML = htmlSelect;
+                        // Mostrar el modal
+                        $('#modalFormRol').modal('show');
+                    }
+                    else
+                        swal("Error", objData.msg, "error");
+                }
+            } 
         });
     });
 }
+
