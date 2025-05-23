@@ -222,10 +222,14 @@ function fntPermisos() {
             request.send();
             // Validación de la solicitud
             request.onreadystatechange = function(){
-                if(request.readyState == 4 && request.status == 200){
+                if (request.readyState == 4 && request.status == 200) {
                     document.querySelector('#contentAjax').innerHTML = request.responseText;
-                    $('.modalPermisos').modal('show');
-                    document.querySelector('#formPermisos').addEventListener('submit', fnfSaverPermisos, false);
+                    $('#modalPermisos').modal('show');
+
+                    var formElement = document.querySelector('#formPermisos');
+                    if (formElement) {
+                        formElement.addEventListener('submit', fntSavePermisos, false); 
+                    }
                 }
             }
             // Mostrando el Modal Permisos
@@ -234,9 +238,15 @@ function fntPermisos() {
     });
 }
 
+// Función para aactivar los permisos de un rol
 function fntSavePermisos(event){
     event.preventDefault();
     var formElement = document.querySelector("#formPermisos");
+    if (!formElement) {
+        console.warn("El formulario #formPermisos aún no existe.");
+        return;
+    }
+
     var request = (window.XMLHttpRequest) 
         ? new XMLHttpRequest() 
         : new ActiveXObject('Microsoft.XMLHTTP');
@@ -245,5 +255,28 @@ function fntSavePermisos(event){
     request.open("POST", ajaxUrl, true);
     request.send(formData);
 
-    
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            try {
+                var objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    Swal.fire({
+                      title: "Permisos asignados",
+                      text: objData.msg,
+                      icon: "success",
+                      confirmButtonText: "Aceptar"
+                    });
+                } else {
+                    Swal.fire({
+                      title: "Error",
+                      text: objData.msg,
+                      icon: "error",
+                      confirmButtonText: "Aceptar"
+                    });
+                }
+            } catch (error) {
+                console.error("JSON inválido en la respuesta:", error);
+            }
+        }
+    }
 }

@@ -52,10 +52,37 @@ class Permisos extends Controllers
         die();
     }
 
-    //Método para activar los permios de un rol
     public function setPermisos()
     {
-        dep($_POST);
+        if ($_POST) {
+            $intIdrol = intval($_POST['idrol']);
+            $modulos = $_POST['modulos'];
+
+            $this->model->deletePermisos($intIdrol);
+
+            $insertados = 0;
+
+            foreach ($modulos as $modulo) {
+                $idModulo = $modulo['idmodulo'];
+                $r = empty($modulo['r']) ? 0 : 1;
+                $w = empty($modulo['w']) ? 0 : 1;
+                $u = empty($modulo['u']) ? 0 : 1;
+                $d = empty($modulo['d']) ? 0 : 1;
+
+                $res = $this->model->insertPermisos($intIdrol, $idModulo, $r, $w, $u, $d);
+                if ($res > 0) {
+                    $insertados++;
+                }
+            }
+
+            if ($insertados > 0) {
+                $arrResponse = array('status' => true, 'msg' => 'Permisos asignados correctamente.');
+            } else {
+                $arrResponse = array('status' => false, 'msg' => 'No se asignaron permisos.');
+            }
+
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
         die();
     }
 }
