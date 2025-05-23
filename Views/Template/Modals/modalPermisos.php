@@ -13,6 +13,7 @@
         <div class="col-md-12">
           <div class="tile">
             <form action="" id="formPermisos" name="formPermisos">
+              <input type="hidden" id="idrol" name="idrol" value="<?php echo $data['idrol']; ?>">
               <div class="table-responsive">
                 <table class="table">
                   <thead>
@@ -67,7 +68,7 @@
                 </table>
               </div>
               <div class="text-center">
-                <button class="btn btn-success" type="button">Guardar</button>
+                <button class="btn btn-success" type="button" onclick="fntSavePermisos(event)">Guardar</button>
                 <button class="btn btn-danger" type="button">Cancelar</button>
               </div>
             </form>

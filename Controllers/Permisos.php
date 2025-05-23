@@ -40,10 +40,22 @@ class Permisos extends Controllers
                 }
             }
 
-            $arrPermisosRol['modulos'] = $arrModulos;
-            $html = getModal("modalPermisos", $arrPermisosRol);
+            //$arrPermisosRol['modulos'] = $arrModulos;
+            // Construir correctamente el array que se le pasa al modal
+            $data = [
+                'modulos' => $arrModulos,
+                'idrol'   => $rolid
+            ];
+            $html = getModal("modalPermisos", $data);
             //dep($arrModulos); 
         }
+        die();
+    }
+
+    //Método para activar los permios de un rol
+    public function setPermisos()
+    {
+        dep($_POST);
         die();
     }
 }

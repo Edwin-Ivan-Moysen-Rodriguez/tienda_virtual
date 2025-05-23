@@ -223,13 +223,27 @@ function fntPermisos() {
             // Validación de la solicitud
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
-                    console.log(request.responseText);
                     document.querySelector('#contentAjax').innerHTML = request.responseText;
                     $('.modalPermisos').modal('show');
+                    document.querySelector('#formPermisos').addEventListener('submit', fnfSaverPermisos, false);
                 }
             }
             // Mostrando el Modal Permisos
             $('.modalPermisos').modal('show');
         });
     });
+}
+
+function fntSavePermisos(event){
+    event.preventDefault();
+    var formElement = document.querySelector("#formPermisos");
+    var request = (window.XMLHttpRequest) 
+        ? new XMLHttpRequest() 
+        : new ActiveXObject('Microsoft.XMLHTTP');
+    var ajaxUrl = base_url + 'Permisos/setPermisos';
+    var formData = new FormData(formElement);
+    request.open("POST", ajaxUrl, true);
+    request.send(formData);
+
+    
 }
