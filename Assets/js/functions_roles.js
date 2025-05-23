@@ -58,9 +58,9 @@ formRol.onsubmit = function(e) {
                     swal("Roles de usuario", objData.msg, "success");
                     tableRoles.api().ajax.reload(function(){
                         fnEditRol();
-                        //fntEditRol();
-                        //fntDenRol();
-                        //fntPermisos();
+                        fntEditRol();
+                        fntDenRol();
+                        fntPermisos();
                     });
                 } else {
                     swal("Error", objData.msg, "error");
@@ -217,13 +217,15 @@ function fntPermisos() {
             var request = window.XMLHttpRequest 
                         ? new XMLHttpRequest() 
                         : new ActiveXObject('Microsoft.XMLHTTP');
-            var ajaxUrl = base_url + '/Permisos/getPermisosRol' + idrol;
+            var ajaxUrl = base_url + '/Permisos/getPermisosRol/' + idrol;
             request.open("GET", ajaxUrl, true);
             request.send();
             // Validación de la solicitud
             request.onreadystatechange = function(){
-                if(request.status == 200){
+                if(request.readyState == 4 && request.status == 200){
                     console.log(request.responseText);
+                    document.querySelector('#contentAjax').innerHTML = request.responseText;
+                    $('.modalPermisos').modal('show');
                 }
             }
             // Mostrando el Modal Permisos
