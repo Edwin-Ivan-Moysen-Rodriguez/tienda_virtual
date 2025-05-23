@@ -19,7 +19,7 @@
           <div class="tile">
             <div class="tile-body">
               <div class="table-responsive">
-                <table class="table table-hover table-bordered" id="tableRoles">
+                <table class="table table-hover table-bordered" id="tableUsuarios">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -33,7 +33,16 @@
                     </tr>
                   </thead>
                   <tbody>
-                    
+                    <tr>
+                      <td>1234</td>
+                      <td>Edwin Ivan</td>
+                      <td>Moysen Rodriguez</td>
+                      <td>edwin_mr1977@outlook.com</td>
+                      <td>5624807643</td>
+                      <td>Administrados</td>
+                      <td>Activo</td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
