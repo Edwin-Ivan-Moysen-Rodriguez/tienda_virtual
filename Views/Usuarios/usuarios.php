@@ -1,6 +1,6 @@
 <?php 
   headerAdmi($data); 
-  //getModal("modalRoles", $data)
+  getModal("modalUsuarios", $data)
 ?>
     <main class="app-content">
       <div class="app-title">
