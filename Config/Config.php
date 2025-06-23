@@ -100,5 +100,10 @@
 	const FACEBOOK = "https://www.facebook.com/exintoresrgc";
 	const INSTAGRAM = "https://www.instagram.com/exintoresrgc/";
 	
-
+	//DATOS PARA  PAYPAL
+	define('PAYPAL_CLIENT_ID',   'CLIENT_ID');
+	define('PAYPAL_SECRET',      'SECRET');
+	define('PAYPAL_OAUTH_URL',   'https://api.sandbox.paypal.com/v1/oauth2/token');
+	define('PAYPAL_ORDER_URL',   'https://api.sandbox.paypal.com/v2/checkout/orders/'); 
+	// URL de producción cuando estemos en live
  ?>

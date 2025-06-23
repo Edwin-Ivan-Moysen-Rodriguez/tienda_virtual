@@ -77,5 +77,29 @@
 			$request = $this->select($sql);
 			return $request;
 		}
+		public function selectTransPaypal(string $idtransaccion, int $idpersona)
+		{
+			// Obtener token
+			$token = obtenerTokenPaypal();
+			if (empty($token)) {
+				// manejar error, tal vez retornar false o lanzar excepción
+				return [];
+			}
+
+			// URL completa de la orden
+			$ruta = PAYPAL_ORDER_URL . $idtransaccion; 
+
+			// Llamada GET con cURL (ajusta según tu CurlConnectionGet)
+			$response = CurlConnectionGet(
+				$ruta,
+				'application/json',
+				$token
+			);
+
+			// Parsear y retornar (o formatear) lo que necesites
+			$data = json_decode($response, true);
+			return $data ?? [];
+		}
+
 	}
  ?>

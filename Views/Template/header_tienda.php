@@ -139,7 +139,7 @@
 					
 					<!-- Logo desktop -->		
 					<a href="<?= base_url(); ?>" class="logo">
-						<img src="<?= media() ?>/tienda/images/logo.png" alt="Tienda Virtual">
+						<img src="<?= media() ?>/tienda/images/logo-nuevo.png" alt="Tienda Virtual">
 					</a>
 
 					<!-- Menu desktop -->

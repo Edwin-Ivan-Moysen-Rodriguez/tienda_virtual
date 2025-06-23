@@ -37,10 +37,10 @@
                       <tbody>
                         <tr>
                           <td>1</td>
-                          <td>Carlos</td>
-                          <td>Henández</td>
-                          <td>carlos@info.com</td>
-                          <td>78542155</td>
+                          <td>Edwin</td>
+                          <td>Moysen</td>
+                          <td>edwin@exintoresrgc.com</td>
+                          <td>5624807643</td>
                           <td>Administrador</td>
                           <td>Activo</td>
                           <td></td>

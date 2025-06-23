@@ -410,4 +410,38 @@
         }
     }
 
+        
+    function obtenerTokenPaypal(): string
+    {
+        $clientId     = PAYPAL_CLIENT_ID;
+        $clientSecret = PAYPAL_SECRET;
+        $urlToken     = PAYPAL_OAUTH_URL;
+
+        $headers = [
+            "Accept: application/json",
+            "Accept-Language: en_US"
+        ];
+        $body = "grant_type=client_credentials";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,            $urlToken);
+        curl_setopt($ch, CURLOPT_HTTPHEADER,     $headers);
+        curl_setopt($ch, CURLOPT_USERPWD,        "{$clientId}:{$clientSecret}");
+        curl_setopt($ch, CURLOPT_POSTFIELDS,     $body);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+        $err      = curl_error($ch);
+        curl_close($ch);
+
+        // === Depuración ===
+        var_dump('PAYPAL OAUTH RESPONSE:', $response, 'ERROR:', $err);
+        exit;
+        // ==================
+
+        $data = json_decode($response);
+        return $data->access_token ?? "";
+    }
+
  ?>
