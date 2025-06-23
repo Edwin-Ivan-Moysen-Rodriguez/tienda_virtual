@@ -1,25 +1,26 @@
-<?php  
-	/**
-	  * Archivo Home.php
-	  * Invoca a los controladores
-  	*/
-	class Home extends Controllers
-	{
-		//Constructor
+<?php 
+	require_once("Models/TCategoria.php");
+	require_once("Models/TProducto.php");
+	class Home extends Controllers{
+		use TCategoria, TProducto;
 		public function __construct()
 		{
 			parent::__construct();
+			//session_start();
 		}
-		//Metodo: llamada a la vista home
-		public function home($params)
+
+		public function home()
 		{
-			//Arreglo qu contiene toda la informacion de nuestra vista
-			$data['page_id'] = 1;
-			$data['page_tag'] = "Home";
-			$data['page_title'] = "Pagina principal";
-			$data['page_name'] = "home";
-			$data['page_content'] = "Esta es un pagina del proyecto de Ing Web, para la UPIITA_IPN";
-			$this->views->getViews($this, "home", $data);
+			$pageContent = getPageRout('inicio');
+			$data['page_tag'] = NOMBRE_EMPESA;
+			$data['page_title'] = NOMBRE_EMPESA;
+			$data['page_name'] = "tienda_virtual";
+			$data['page'] = $pageContent;
+			$data['slider'] = $this->getCategoriasT(CAT_SLIDER);
+			$data['banner'] = $this->getCategoriasT(CAT_BANNER);
+			$data['productos'] = $this->getProductosT();
+			$this->views->getView($this,"home",$data); 
 		}
+
 	}
-?>
+ ?>

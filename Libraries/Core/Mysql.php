@@ -1,91 +1,69 @@
-<?php  
-	/**
-	 * 
-	 */
+<?php 
+	
 	class Mysql extends Conexion
 	{
-		//Propiedades
 		private $conexion;
 		private $strquery;
 		private $arrValues;
-		//Constructor de la clase
-		public function __construct()
+
+		function __construct()
 		{
-			//Instanacia de la clase Conexion
 			$this->conexion = new Conexion();
-			//Retornamos la propiedad de conexion con la base de datos
-			$this->conexion = $this->conexion->connect();
+			$this->conexion = $this->conexion->conect();
 		}
-		//Metodo para insertar un registro en la base de datos
+
+		//Insertar un registro
 		public function insert(string $query, array $arrValues)
 		{
-			//Inicializamos las propiedades
 			$this->strquery = $query;
-			$this->arrValues = $arrValues;
-			//Preparamos el query (la consulta) de la base de datos
-			$insert = $this->conexion->prepare($this->strquery);
-			//Realizamos la insercion de los datos en la consulta
-			$resInsert = $insert->execute($this->arrValues);
-			//Verificamos que insertamos un elemento
-			if($resInsert) //Si es verdad
-				$lasInsert = $this->conexion->lastInsertId(); //Retornamos el ID del ultimo elemento
-			else //De los contrario
-				$lasInsert = 0; //No contamos con ID del ultimo elemento, por lo cual tendremos al final 0
-			//Retornamos el ID del ultimo metodo
-			return $lasInsert;
+			$this->arrVAlues = $arrValues;
+        	$insert = $this->conexion->prepare($this->strquery);
+        	$resInsert = $insert->execute($this->arrVAlues);
+        	if($resInsert)
+	        {
+	        	$lastInsert = $this->conexion->lastInsertId();
+	        }else{
+	        	$lastInsert = 0;
+	        }
+	        return $lastInsert; 
 		}
-		//Metodo para buscar un registro
+		//Busca un registro
 		public function select(string $query)
 		{
-			//Iniciamos la propiedad de consulta
 			$this->strquery = $query;
-			//Preparamos la consulta para la base de datos
-			$result = $this->conexion->prepare($this->strquery);
-			//Ejecutamos la consulta
+        	$result = $this->conexion->prepare($this->strquery);
 			$result->execute();
-			//Guardamos los resultados de la consulta	
-			$data = $result->fetch(PDO::FETCH_ASSOC);
-			//Retornamos los datos de la consulta, si es vacia, tendra un 0
-			return $data;
+        	$data = $result->fetch(PDO::FETCH_ASSOC);
+        	return $data;
 		}
-		//Metodo para devolver todos los registros
+		//Devuelve todos los registros
 		public function select_all(string $query)
 		{
-			//Iniciamos la propiedad de consulta
 			$this->strquery = $query;
-			//Preparamos la consulta para la base de datos
-			$result = $this->conexion->prepare($this->strquery);
-			//Ejecutamos la consulta
+        	$result = $this->conexion->prepare($this->strquery);
 			$result->execute();
-			//Guardamos los resultados de la consulta	
-			$data = $result->fetchall(PDO::FETCH_ASSOC);
-			//Retornamos los datos de la consulta, si es vacia, tendra un 0
-			return $data;
+        	$data = $result->fetchall(PDO::FETCH_ASSOC);
+        	return $data;
 		}
-		//Metodo para actualizar registros
+		//Actualiza registros
 		public function update(string $query, array $arrValues)
 		{
-			//Inicializamos las propiedas
 			$this->strquery = $query;
-			$this->arrValues = $arrValues;
-			//Praparamos la consulta, para la actualizacion de registros
+			$this->arrVAlues = $arrValues;
 			$update = $this->conexion->prepare($this->strquery);
-			//Ejecutamos la consulta
-			$resExecute = $update->execute($this->arrValues);
-			//Retornamos el resultado de la consulta, si hay error, retornaremos un 0
-			return $resExecute;
+			$resExecute = $update->execute($this->arrVAlues);
+	        return $resExecute;
 		}
-		//Metodo para eliminar un registro
+		//Eliminar un registros
 		public function delete(string $query)
 		{
-			//Inicializamos las propiedas
 			$this->strquery = $query;
-			//Praparamos la consulta, para la eliminaciob de registros
-			$result = $this->conexion->prepare($this->strquery);
-			//Ejecutamos la consulta
-			$result->execute();
-			//Retornamos el resultado de la consulta, si hay error, retornaremos un 0
-			return $result;
+        	$result = $this->conexion->prepare($this->strquery);
+			$del = $result->execute();
+        	return $del;
 		}
 	}
-?>
+
+
+ ?>
+

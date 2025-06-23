@@ -1,14 +1,16 @@
 <?php 
-	/**
-	 * HomeModel.php
-	 * Archivo encargado de la creacion del modelo Home
-	 */
-	class homeModel extends Mysql
+	//require_once("CategoriasModel.php");
+	class HomeModel extends Mysql
 	{
-		//Constructor de la clase
+		private $objCategoria;
 		public function __construct()
 		{
 			parent::__construct();
+			//$this->objCategoria = new CategoriasModel();
 		}
+
+		public function getCategorias(){
+			//return $this->objCategoria->selectCategorias();
+		}	
 	}
-?>
+ ?>

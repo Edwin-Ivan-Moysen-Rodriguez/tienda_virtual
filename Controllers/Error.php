@@ -1,18 +1,27 @@
 <?php 
-	class Errors extends Controllers
-	{
-		//Constructor
+
+	class Errors extends Controllers{
 		public function __construct()
 		{
 			parent::__construct();
 		}
-		//Metodo notFound: llama a la vista error
+
 		public function notFound()
 		{
-			$this->views->getViews($this, "error");
+			$pageContent = getPageRout('not-found');
+			if(empty($pageContent)){
+				header("Location: ".base_url());
+			}else{
+				$data['page_tag'] = NOMBRE_EMPESA;
+				$data['page_title'] = NOMBRE_EMPESA." - ".$pageContent['titulo'];
+				$data['page_name'] = $pageContent['titulo'];
+				$data['page'] = $pageContent;
+				$this->views->getView($this,"error",$data);
+			}
 		}
 	}
-	//Instancia de la clase
+
+
 	$notFound = new Errors();
 	$notFound->notFound();
-?>
+ ?>
