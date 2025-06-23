@@ -325,44 +325,69 @@ function fntEditUsuario(element,idpersona){
     }
 }
 
-function fntDelUsuario(idpersona){
+function fntDelUsuario(idpersona) {
     swal({
-        title: "Eliminar Usuario",
-        text: "¿Realmente quiere eliminar el Usuario?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Si, eliminar!",
-        cancelButtonText: "No, cancelar!",
-        closeOnConfirm: false,
-        closeOnCancel: true
-    }, function(isConfirm) {
-        
-        if (isConfirm) 
-        {
-            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            let ajaxUrl = base_url+'/Usuarios/delUsuario';
-            let strData = "idUsuario="+idpersona;
-            request.open("POST",ajaxUrl,true);
-            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            request.send(strData);
-            request.onreadystatechange = function(){
-                if(request.readyState == 4 && request.status == 200){
-                    let objData = JSON.parse(request.responseText);
-                    if(objData.status)
-                    {
-                        swal("Eliminar!", objData.msg , "success");
-                        tableUsuarios.api().ajax.reload();
-                    }else{
-                        swal("Atención!", objData.msg , "error");
-                    }
-                }
-            }
+      title: "Eliminar Usuario",
+      text: "¿Realmente quiere eliminar el Usuario?",
+      icon: "warning",
+      buttons: {
+        cancel: {
+          text: "No, cancelar!",
+          visible: true,
+          closeModal: true
+        },
+        confirm: {
+          text: "Sí, eliminar!",
+          closeModal: false   // <-- al hacer click en “confirm”, NO cierra todavía
         }
-
+      },
+      dangerMode: true
+    })
+    .then((willDelete) => {
+      // willDelete === true solo si el usuario hizo clic en “confirm”
+      if (!willDelete) return;  // si clic en “No”, salimos sin hacer nada
+  
+      // ----------- PETICIÓN AJAX -----------
+      const xhr = new XMLHttpRequest();
+      const url = `${base_url}/Usuarios/delUsuario`;
+      const params = `idpersona=${encodeURIComponent(idpersona)}`;
+  
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+        if (xhr.status !== 200) {
+          swal("Error", "Hubo un error en la petición.", "error");
+          return;
+        }
+  
+        let resp;
+        try {
+          resp = JSON.parse(xhr.responseText);
+        } catch (e) {
+          console.error("Respuesta inválida:", xhr.responseText);
+          swal("Error", "Respuesta no válida del servidor.", "error");
+          return;
+        }
+  
+        if (resp.status) {
+          // 1) Cerramos este diálogo y abrimos el de “éxito”
+          swal("¡Eliminado!", resp.msg, "success")
+          .then(() => {
+            // 2) Al cerrar el diálogo de éxito recargamos la tabla
+            $('#tableUsuarios').DataTable().ajax.reload();
+          });
+        } else {
+          // cerramos el diálogo de confirmación y mostramos error
+          swal("Atención", resp.msg, "error");
+        }
+      };
+  
+      xhr.send(params);
     });
-
-}
-
+  }
+    
 
 function openModal()
 {

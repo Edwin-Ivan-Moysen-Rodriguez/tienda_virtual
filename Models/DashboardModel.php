@@ -66,34 +66,43 @@
 			$arrData = array('anio' => $anio, 'mes' => $meses[intval($mes-1)], 'tipospago' => $pagos );
 			return $arrData;
 		}
-		public function selectVentasMes(int $anio, int $mes){
-			$rolid = $_SESSION['userData']['idrol'];
-			$idUser = $_SESSION['userData']['idpersona'];
-			$where = "";
-			if($rolid == RCLIENTES ){
-				$where = " AND personaid = ".$idUser;
+		public function selectVentasMes(int $anio, int $mes): array
+		{
+			// Si es cliente, filtrar solo sus pedidos
+			$rolid   = $_SESSION['userData']['idrol'] ?? 0;
+			$idUser  = $_SESSION['userData']['idpersona'] ?? 0;
+			$where   = '';
+			if($rolid === RCLIENTES) {
+				$where = " AND personaid = {$idUser}";
 			}
 
-			$totalVentasMes = 0;
-			$arrVentaDias = array();
-			$dias = cal_days_in_month(CAL_GREGORIAN,$mes, $anio);
-			$n_dia = 1;
-			for ($i=0; $i < $dias ; $i++) { 
-				$date = date_create($anio."-".$mes."-".$n_dia);
-				$fechaVenta = date_format($date,"Y-m-d");
-				$sql = "SELECT DAY(fecha) AS dia, COUNT(idpedido) AS cantidad, SUM(monto) AS total 
-						FROM pedido 
-						WHERE DATE(fecha) = '$fechaVenta' AND status = 'Completo' ".$where;
-				$ventaDia = $this->select($sql);
-				$ventaDia['dia'] = $n_dia;
-				$ventaDia['total'] = $ventaDia['total'] == "" ? 0 : $ventaDia['total'];
-				$totalVentasMes += $ventaDia['total'];
-				array_push($arrVentaDias, $ventaDia);
-				$n_dia++;
-			}
+			// Consulta única con GROUP BY
+			$sql = "
+				SELECT 
+					DAY(fecha)        AS dia,
+					COUNT(idpedido)   AS cantidad,
+					SUM(monto)        AS total
+				FROM pedido
+				WHERE YEAR(fecha)  = {$anio}
+				AND MONTH(fecha) = {$mes}
+				AND status = 'Completo'
+				{$where}
+				GROUP BY DAY(fecha)
+				ORDER BY dia
+			";
+
+			// Ejecutar y obtener todos los días que tengan ventas
+			$ventas = $this->select_all($sql);
+
+			// Nombre del mes (helper Meses devuelve ["Enero", "Febrero", ...])
 			$meses = Meses();
-			$arrData = array('anio' => $anio, 'mes' => $meses[intval($mes-1)], 'total' => $totalVentasMes,'ventas' => $arrVentaDias );
-			return $arrData;
+			$nombreMes = $meses[intval($mes) - 1] ?? $mes;
+
+			return [
+				'anio'    => $anio,
+				'mes'     => $nombreMes,
+				'ventas'  => $ventas
+			];
 		}
 		public function selectVentasAnio(int $anio){
 			$arrMVentas = array();
