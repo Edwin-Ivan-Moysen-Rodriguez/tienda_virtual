@@ -15,51 +15,50 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
 <script
     src="https://www.paypal.com/sdk/js?client-id=<?= IDCLIENTE ?>&currency=<?= CURRENCY ?>">
 </script>
+<!-- tras cargar el SDK de PayPal -->
 <script>
   paypal.Buttons({
-    createOrder: function(data, actions) {
+    createOrder(data, actions) {
       return actions.order.create({
         purchase_units: [{
-          amount: {
-            value: <?= $total; ?>
-          },
-          description: "Compra de artículos en <?= NOMBRE_EMPESA ?> por <?= SMONEY.$total ?> ",
+          amount: { value: '<?= $total ?>' }
         }]
       });
     },
-    onApprove: function(data, actions) {
-      // This function captures the funds from the transaction.
+    onApprove(data, actions) {
       return actions.order.capture().then(function(details) {
-      		let base_url = "<?= base_url(); ?>";
-	        let dir = document.querySelector("#txtDireccion").value;
-	        let ciudad = document.querySelector("#txtCiudad").value;
-	        let inttipopago = 1; 
-	        let request = (window.XMLHttpRequest) ? 
-	                    new XMLHttpRequest() : 
-	                    new ActiveXObject('Microsoft.XMLHTTP');
-			let ajaxUrl = base_url+'/Tienda/procesarVenta';
-			let formData = new FormData();
-		    formData.append('direccion',dir);    
-		   	formData.append('ciudad',ciudad);
-			formData.append('inttipopago',inttipopago);
-		   	formData.append('datapay',JSON.stringify(details));
-		   	request.open("POST",ajaxUrl,true);
-		    request.send(formData);
-		    request.onreadystatechange = function(){
-		    	if(request.readyState != 4) return;
-		    	if(request.status == 200){
-		    		let objData = JSON.parse(request.responseText);
-		    		if(objData.status){
-		    			window.location = base_url+"/tienda/confirmarpedido/";
-		    		}else{
-		    			swal("", objData.msg , "error");
-		    		}
-		    	}
-		    }
+        const base_url   = "<?= base_url(); ?>",
+              dir        = document.querySelector("#txtDireccion").value,
+              ciudad     = document.querySelector("#txtCiudad").value,
+              inttipopago= 1;
+
+        const formData = new FormData();
+        formData.append('direccion',   dir);
+        formData.append('ciudad',      ciudad);
+        formData.append('inttipopago', inttipopago);
+        formData.append('datapay',     JSON.stringify(details));
+
+        fetch(base_url + '/Tienda/procesarVenta', {
+          method: 'POST',
+          body: formData
+        })
+        .then(res => res.json())
+        .then(objData => {
+          if (objData.status) {
+            window.location.href = base_url + "/tienda/confirmarpedido/";
+          } else {
+            swal("", objData.msg, "error");
+          }
+        })
+        .catch(err => {
+          console.error('Fetch error:', err);
+          swal("", "Error de red, inténtalo de nuevo.", "error");
+        });
       });
     }
   }).render('#paypal-btn-container');
 </script>
+
 
 <!-- Modal -->
 <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">

@@ -25,8 +25,8 @@
 	//Api PayPal
 	//SANDBOX PAYPAL
 	const URLPAYPAL = "https://api-m.sandbox.paypal.com";
-	const IDCLIENTE = "";
-	const SECRET = "";
+	const IDCLIENTE = "ARdYTB-chFUcHI6bHF9Rqv33Iaui58ikQdUrVDqGpNm7rv_0PTNX5tkboG3BNdt3qRRGcKn6nz9iDgRX";
+	const SECRET = "EDOL7tFlIokeoV0HkNIusjJpUNMEIgHMbQ6MuoFjg6-Bl1PaqbjYN_ejKgyagu-Yz4gs6Ee5YmqYenv9";
 	//LIVE PAYPAL
 	//const URLPAYPAL = "https://api-m.paypal.com";
 	//const IDCLIENTE = "";
@@ -100,10 +100,4 @@
 	const FACEBOOK = "https://www.facebook.com/exintoresrgc";
 	const INSTAGRAM = "https://www.instagram.com/exintoresrgc/";
 	
-	//DATOS PARA  PAYPAL
-	define('PAYPAL_CLIENT_ID',   'CLIENT_ID');
-	define('PAYPAL_SECRET',      'SECRET');
-	define('PAYPAL_OAUTH_URL',   'https://api.sandbox.paypal.com/v1/oauth2/token');
-	define('PAYPAL_ORDER_URL',   'https://api.sandbox.paypal.com/v2/checkout/orders/'); 
-	// URL de producción cuando estemos en live
  ?>
