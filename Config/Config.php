@@ -20,7 +20,7 @@
 
 	//Simbolo de moneda
 	const SMONEY = "$";
-	const CURRENCY = "USD";
+	const CURRENCY = "MXN";
 
 	//Api PayPal
 	//SANDBOX PAYPAL
