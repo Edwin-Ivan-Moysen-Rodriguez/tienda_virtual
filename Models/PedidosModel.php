@@ -134,19 +134,23 @@
 			}
 		}
 
-		public function updatePedido(int $idpedido, $transaccion = NULL, $idtipopago = NULL, string $estado){
-			if($transaccion == NULL){
-				$query_insert  = "UPDATE pedido SET status = ?  WHERE idpedido = $idpedido ";
-	        	$arrData = array($estado);
-			}else{
-				$query_insert  = "UPDATE pedido SET referenciacobro = ?, tipopagoid = ?,status = ? WHERE idpedido = $idpedido";
-	        	$arrData = array($transaccion,
-	        					$idtipopago,
-	    						$estado
-	    					);
+		public function updatePedido(
+			int    $idpedido,
+			$transaccion = null,
+			$idtipopago  = null,
+			string $estado    = 'Pendiente'
+		) {
+			if ($transaccion === null) {
+				$query  = "UPDATE pedido SET status = ? WHERE idpedido = $idpedido";
+				$params = [$estado];
+			} else {
+				$query  = "UPDATE pedido 
+						   SET referenciacobro = ?, tipopagoid = ?, status = ? 
+						   WHERE idpedido = $idpedido";
+				$params = [$transaccion, $idtipopago, $estado];
 			}
-			$request_insert = $this->update($query_insert,$arrData);
-        	return $request_insert;
+			return $this->update($query, $params);
 		}
+		
 	}
  ?>
