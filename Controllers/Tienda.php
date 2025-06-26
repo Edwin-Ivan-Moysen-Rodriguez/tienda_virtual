@@ -262,97 +262,96 @@
 		}
 
 		public function procesarVenta()
-	{
-		if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-			$this->sendJson(['status' => false, 'msg' => 'Método no permitido.']);
-		}
-
-		// Recogemos datos
-		$personaid      = $_SESSION['idUser'] ?? 0;
-		$tipopagoid     = intval($_POST['inttipopago'] ?? 0);
-		$direccion      = trim(strClean($_POST['direccion']  ?? ''));
-		$ciudad         = trim(strClean($_POST['ciudad']     ?? ''));
-		$datapay        = $_POST['datapay']    ?? '';
-		$subtotal       = 0;
-		$costo_envio    = COSTOENVIO;
-
-		// Calculamos subtotal
-		if(!empty($_SESSION['arrCarrito'])){
-			foreach($_SESSION['arrCarrito'] as $p){
-				$subtotal += $p['precio'] * $p['cantidad'];
+		{
+			// Sólo POST
+			if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+				return $this->sendJson(['status' => false, 'msg' => 'Método no permitido.']);
 			}
-		}
-		$monto = $subtotal + $costo_envio;
 
-		// Modo de pago y validación PayPal
-		$status_pago = empty($datapay) ? 'Pendiente' : 'Completo';
-		$idtrans     = null;
-
-		if(!empty($datapay)){
-			$obj = json_decode($datapay);
-			if(json_last_error() !== JSON_ERROR_NONE
-			|| empty($obj->status)
-			|| strtoupper($obj->status) !== 'COMPLETED'
-			){
-				$this->sendJson(['status' => false, 'msg' => 'Error en la transacción PayPal.']);
+			// Usuario logueado
+			$personaid = $_SESSION['idUser'] ?? 0;
+			if($personaid <= 0){
+				return $this->sendJson(['status' => false, 'msg' => 'Debe iniciar sesión.']);
 			}
-			// Extraemos el ID de la captura PayPal
-			$idtrans = $obj->purchase_units[0]->payments->captures[0]->id ?? null;
-		}
 
-		// Armamos la dirección completa
-		$direccionenvio = "$direccion, $ciudad";
-
-		// Insertamos el pedido
-		$request_pedido = $this->insertPedido(
-			$idtrans,
-			$datapay,
-			$personaid,
-			$costo_envio,
-			$monto,
-			$tipopagoid,
-			$direccionenvio,
-			$status_pago
-		);
-
-		if($request_pedido > 0){
-			// Insertamos detalle
-			foreach($_SESSION['arrCarrito'] as $producto){
-				$this->insertDetalle(
-					$request_pedido,
-					$producto['idproducto'],
-					$producto['precio'],
-					$producto['cantidad']
-				);
+			// Carrito no vacío
+			$carrito = $_SESSION['arrCarrito'] ?? [];
+			if(empty($carrito)){
+				return $this->sendJson(['status' => false, 'msg' => 'Carrito vacío.']);
 			}
-			// Preparamos respuesta exitosa
-			$response = [
-				'status'      => true,
-				'orden'       => openssl_encrypt($request_pedido, METHODENCRIPT, KEY),
-				'transaccion' => openssl_encrypt($idtrans ?: '', METHODENCRIPT, KEY),
-				'msg'         => 'Pedido realizado'
-			];
-			// Limpiamos carrito y regeneramos sesión
-			unset($_SESSION['arrCarrito']);
-			session_regenerate_id(true);
-		} else {
-			$response = ['status' => false, 'msg' => 'No es posible procesar el pedido.'];
+
+			// Recogemos datos POST
+			$tipopagoid  = intval($_POST['inttipopago'] ?? 0);
+			$direccion   = trim(strClean($_POST['direccion']  ?? ''));
+			$ciudad      = trim(strClean($_POST['ciudad']     ?? ''));
+			$datapay     = $_POST['datapay']    ?? '';
+			$costo_envio = COSTOENVIO;
+
+			// Calculamos subtotal y total
+			$subtotal = array_reduce($carrito, fn($sum,$p)=> $sum + $p['precio']*$p['cantidad'], 0);
+			$monto    = $subtotal + $costo_envio;
+
+			// Validamos PayPal si aplica
+			$status_pago = empty($datapay) ? 'Pendiente' : 'Completo';
+			$idtrans     = null;
+			if(!empty($datapay)){
+				$obj = json_decode($datapay);
+				if(json_last_error() !== JSON_ERROR_NONE
+				|| empty($obj->status)
+				|| strtoupper($obj->status) !== 'COMPLETED'
+				){
+					return $this->sendJson(['status' => false, 'msg' => 'Error en la transacción PayPal.']);
+				}
+				$idtrans = $obj->purchase_units[0]->payments->captures[0]->id ?? null;
+			}
+
+			// Dirección completa
+			$direccionenvio = "$direccion, $ciudad";
+
+			// Insertamos pedido
+			$idpedido = $this->insertPedido(
+				$idtrans,
+				$datapay,
+				$personaid,
+				$costo_envio,
+				$monto,
+				$tipopagoid,
+				$direccionenvio,
+				$status_pago
+			);
+
+			if($idpedido > 0){
+				// Detalle
+				foreach($carrito as $producto){
+					$this->insertDetalle(
+						$idpedido,
+						$producto['idproducto'],
+						$producto['precio'],
+						$producto['cantidad']
+					);
+				}
+				// Limpiar y responder
+				unset($_SESSION['arrCarrito']);
+				session_regenerate_id(true);
+
+				return $this->sendJson([
+					'status'      => true,
+					'orden'       => openssl_encrypt($idpedido, METHODENCRIPT, KEY),
+					'transaccion' => openssl_encrypt($idtrans ?: '', METHODENCRIPT, KEY),
+					'msg'         => 'Pedido realizado'
+				]);
+			}
+
+			return $this->sendJson(['status'=>false,'msg'=>'No es posible procesar el pedido.']);
 		}
 
-		$this->sendJson($response);
-	}
-
-	// Helper para enviar siempre JSON limpio y terminar la ejecución.
-	private function sendJson(array $data)
-	{
-		if(ob_get_length()) {
-			ob_clean();
+		private function sendJson(array $data)
+		{
+			if(ob_get_length()) ob_clean();
+			header('Content-Type: application/json; charset=utf-8');
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
+			exit;
 		}
-		header('Content-Type: application/json; charset=utf-8');
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-		exit;
-	}
-
 		
 		public function confirmarpedido(){
 			if(empty($_SESSION['dataorden'])){
